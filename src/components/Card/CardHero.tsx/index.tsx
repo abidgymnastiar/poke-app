@@ -1,5 +1,5 @@
 import CardHeroBedge from "./CardHeroBedge";
-import CardHeroImg from "./CardheroImg";
+import CardHeroImg from "./CardHeroImage";
 import CardHeroStats from "./CardHeroStats";
 import CardHeroTitle from "./CardHeroTitle";
 
