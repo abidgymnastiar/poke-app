@@ -6,8 +6,8 @@ export default {
       fontFamily: {
         sans: ["Poppins", "sans-serif"],
       },
-      Color: {
-        primarey: {
+      colors: {
+        primari: {
           600: "#374151",
           500: "#000000e0",
           400: "#00000073",
