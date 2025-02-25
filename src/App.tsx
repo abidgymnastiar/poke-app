@@ -1,10 +1,11 @@
 import "./App.css";
+import Pages from "./pages";
 
 function App() {
 
   return (
     <>
-      <h1 className="text-red-500">poke-app</h1>
+      <Pages />
     </>
   );
 }
