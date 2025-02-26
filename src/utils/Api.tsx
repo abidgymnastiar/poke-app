@@ -2,14 +2,20 @@ import axios from "axios";
 
 export const API_URL = "https://pokeapi.co/api/v2";
 
-interface PokemonListResponse {
-  results: { name: string; url: string }[];
-}
-export const getPokemon = (callback: (data: PokemonListResponse) => void) => {
-  axios
-    .get(`${API_URL}/pokemon`)
-    .then((res) => {
-      callback(res.data);
-    })
-    .catch((err) => console.error("Error fetching data:", err));
+export const getPokemon = async () => {
+  try {
+    const res = await axios.get(`${API_URL}/pokemon`);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getPokemonById = async (id: number) => {
+  try {
+    const res = await axios.get(`${API_URL}/pokemon/${id}`);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
 };
