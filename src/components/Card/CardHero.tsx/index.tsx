@@ -6,6 +6,7 @@ import CardHeroTitle from "./CardHeroTitle";
 import { getPokemon, getPokemonById } from "../../../utils/Api";
 import CardHeroAbilities from "./CardHeroAbilities";
 import Button from "../../Button";
+import { useNavigate } from "react-router-dom";
 
 interface Pokemon {
   name: string;
@@ -46,7 +47,7 @@ function CardHero() {
   const [pokemonDetails, setPokemonDetails] = useState<PokemonDetail[]>([]);
   const [offset, setOffset] = useState(0);
   const limit = 10;
-
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchPokemon = async () => {
       const data = await getPokemon(offset, limit);
@@ -84,12 +85,13 @@ function CardHero() {
     console.log(pokemonDetails),
     console.log(setOffset),
     (
-      <div className="">
+      <>
         <div className="flex flex-row flex-wrap gap-5 justify-center">
           {pokemonDetails.map((pokemon) => (
             <div
               className="group flex flex-col justify-between w-full h-full max-w-[200px] rounded-3xl border-[13px] border-primari-600 cursor-pointer"
               key={pokemon.id}
+              onClick={() => navigate(`/detail/${pokemon.id}`)}
             >
               <div className="p-5 overflow-hidden mx-auto">
                 <div className="transform transition-transform duration-300 ease-in-out group-hover:scale-125">
@@ -132,7 +134,7 @@ function CardHero() {
           <Button text="Prev" onClick={prevPage} disabled={offset === 0} />
           <Button text="Next" onClick={nextPage} />
         </div>
-      </div>
+      </>
     )
   );
 }
