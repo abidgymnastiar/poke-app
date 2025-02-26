@@ -1,10 +1,12 @@
-import Hero from "../../../assets/Hero/1.svg";
+interface CardHeroImgProps {
+  src: string;
+}
 
-function CardHeroImg() {
+function CardHeroImg({ src }: CardHeroImgProps) {
   return (
     <>
-      <div className="max-w-[100px] mx-auto">
-        <img src={Hero} alt="" />
+      <div >
+        <img className="h-40" src={src} alt="" />
       </div>
     </>
   );
