@@ -1,4 +1,4 @@
-import { useState } from "react";
+import {  useEffect, useState } from "react";
 import usePokemonList from "../../../hooks/usePokemonList";
 import usePokemonDetails from "../../../hooks/usePokemonDetails";
 import CardHeroBedge from "./CardHeroBedge";
@@ -28,9 +28,12 @@ function CardHero() {
     setOffset(offset - limit);
   };
 
+  useEffect(() => {
+    console.log(pokemonDetails);
+  }, [pokemonDetails]); 
+
+
   return (
-    console.log(pokemonDetails),
-    console.log(setOffset),
     (
       <>
         <div className="flex flex-row flex-wrap gap-5 justify-center">
