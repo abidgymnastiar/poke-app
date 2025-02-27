@@ -1,5 +1,5 @@
-import CardHero from "../components/Card/CardHero.tsx";
-import Header from "../components/Header";
+import CardHero from "../components/Card/CardHero.tsx/index.tsx";
+import Header from "../components/Header/index.tsx";
 
 function Pages() {
   return (
