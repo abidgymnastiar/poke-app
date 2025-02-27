@@ -1,77 +1,24 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import usePokemonList from "../../../hooks/usePokemonList";
+import usePokemonDetails from "../../../hooks/usePokemonDetails";
 import CardHeroBedge from "./CardHeroBedge";
 import CardHeroImg from "./CardHeroImage";
 import CardHeroStats from "./CardHeroStats";
 import CardHeroTitle from "./CardHeroTitle";
-import { getPokemon, getPokemonById } from "../../../utils/Api";
+// import { getPokemon, getPokemonById } from "../../../utils/Api";
 import CardHeroAbilities from "./CardHeroAbilities";
 import Button from "../../Button";
 import { useNavigate } from "react-router-dom";
 
-interface Pokemon {
-  name: string;
-  url: string;
-}
-
-interface PokemonDetail {
-  id: number;
-  name: string;
-  sprites: {
-    front_default: string;
-    other?: {
-      ["official-artwork"]?: {
-        front_default: string;
-      };
-    };
-  };
-  abilities: {
-    ability: {
-      name: string;
-    };
-  }[];
-  types: {
-    type: {
-      name: string;
-    };
-  }[];
-  stats: {
-    base_stat: number;
-    stat: {
-      name: string;
-    };
-  }[];
-}
 
 function CardHero() {
-  const [pokemonData, setPokemonData] = useState<Pokemon[]>([]);
-  const [pokemonDetails, setPokemonDetails] = useState<PokemonDetail[]>([]);
+
   const [offset, setOffset] = useState(0);
   const limit = 10;
   const navigate = useNavigate();
-  useEffect(() => {
-    const fetchPokemon = async () => {
-      const data = await getPokemon(offset, limit);
-      setPokemonData(data.results);
-    };
-    fetchPokemon();
-  }, [offset]);
 
-  useEffect(() => {
-    const fetchPokemonDetails = async () => {
-      const details = await Promise.all(
-        pokemonData.map(async (pokemon) => {
-          const urlParts = new URL(pokemon.url).pathname.split("/");
-          const pokemonId = urlParts[urlParts.length - 2];
-          return await getPokemonById(Number(pokemonId));
-        })
-      );
-      setPokemonDetails(details);
-    };
-
-    if (pokemonData.length > 0) {
-      fetchPokemonDetails();
-    }
-  }, [pokemonData]);
+  const{pokemonData} = usePokemonList({offset, limit});
+  const{pokemonDetails} = usePokemonDetails({pokemonData});
 
   const nextPage = () => {
     setOffset(offset + limit);
