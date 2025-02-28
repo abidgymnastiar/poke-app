@@ -1,5 +1,6 @@
 import axios from "axios";
 
+//.env file
 export const API_URL = "https://pokeapi.co/api/v2";
 
 export const getPokemon = async (offset = 0, limit = 2000) => {

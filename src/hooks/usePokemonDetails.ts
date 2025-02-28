@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { getPokemonById } from "../utils/Api";
 
+//dimasukkan ke types
 interface PokemonDetail {
   id: number;
   name: string;
