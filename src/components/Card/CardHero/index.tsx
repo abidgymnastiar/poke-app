@@ -6,32 +6,36 @@ import CardHeroTitle from "./CardHeroTitle";
 import CardHeroAbilities from "./CardHeroAbilities";
 import Button from "../../Button";
 import { useNavigate } from "react-router-dom";
-import Checkbox from "./Filter/Checkbox";
 import usePokemonList from "../../../hooks/usePokemonList";
 import usePokemonDetails from "../../../hooks/usePokemonDetails";
-import usePokemonTypes from "../../../hooks/usePokemonType";
+// import Checkbox from "./Filter/Checkbox";
+// import usePokemonTypes from "../../../hooks/usePokemonType";
 
 function CardHero() {
   const [offset, setOffset] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
+  // const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
 
-  const limit = 10;
-  
+  const limit = 1500;
+  const limitTampil = 10;
+
   const navigate = useNavigate();
 
   const { pokemonData } = usePokemonList({ offset, limit });
   const { pokemonDetails } = usePokemonDetails({ pokemonData });
-  const { pokemonType } = usePokemonTypes(offset);
+  // const { pokemonType } = usePokemonTypes(offset);
 
   useEffect(() => {
     console.log(pokemonData);
   }, [pokemonData]);
 
   // Fungsi untuk mengubah halaman
-  const nextPage = useCallback(() => setOffset((prev) => prev + limit), []);
+  const nextPage = useCallback(
+    () => setOffset((prev) => prev + limitTampil),
+    []
+  );
   const prevPage = useCallback(
-    () => setOffset((prev) => Math.max(0, prev - limit)),
+    () => setOffset((prev) => Math.max(0, prev - limitTampil)),
     []
   );
 
@@ -39,14 +43,25 @@ function CardHero() {
     const matchesSearch = pokemon.name
       .toLowerCase()
       .includes(searchQuery.toLowerCase());
-    const matchesType =
-      selectedTypes.length === 0 ||
-      pokemon.types.some((t) => selectedTypes.includes(t.type.name));
-    return matchesSearch && matchesType;
+    // const matchesType =
+    //   selectedTypes.length === 0 ||
+    //   pokemon.types.some((t) => selectedTypes.includes(t.type.name));
+    return matchesSearch;
   });
 
   // Jika ada pencarian, tampilkan semua hasil yang cocok, jika tidak, gunakan pagination
-  const displayedPokemon = searchQuery ? filteredPokemon : pokemonDetails;
+  const displayedPokemon = searchQuery
+    ? filteredPokemon
+    : pokemonDetails.slice(offset, offset + limitTampil);
+  // Menentukan jumlah total halaman
+  const totalPages = searchQuery
+    ? Math.ceil(filteredPokemon.length / limitTampil)
+    : Math.ceil(pokemonDetails.length / limitTampil);
+
+  // Menentukan halaman saat ini
+  const currentPage = searchQuery
+    ? Math.ceil(offset / limitTampil) + 1
+    : Math.min(Math.ceil(offset / limitTampil) + 1, totalPages);
 
   return (
     <>
@@ -58,7 +73,20 @@ function CardHero() {
           onChange={(e) => setSearchQuery(e.target.value)}
           className="border border-gray-400 rounded-md px-4 py-2 w-1/2"
         />
-        <div className="flex flex-row flex-wrap justify-center gap-9 w-max-[40%]">
+        {!searchQuery && (
+          <div className="flex flex-row justify-center items-center gap-5 mt-5">
+            <Button text="Prev" onClick={prevPage} disabled={offset === 0} />
+            <span className="text-lg font-semibold">
+            Page {currentPage} of {totalPages}
+            </span>
+            <Button
+              text="Next"
+              onClick={nextPage}
+              disabled={offset + limitTampil >= pokemonDetails.length}
+            />
+          </div>
+        )}
+        {/* <div className="flex flex-row flex-wrap justify-center gap-9 w-max-[40%]">
           {pokemonType.map((type) => (
             <Checkbox
               key={type.name}
@@ -73,7 +101,7 @@ function CardHero() {
               }
             />
           ))}
-        </div>
+        </div> */}
       </div>
 
       <div className="flex flex-row flex-wrap gap-5 justify-center">
@@ -107,9 +135,9 @@ function CardHero() {
               </div>
               <div className="flex flex-col gap-1">
                 <CardHeroStats
-                  hp={pokemon.stats[0].base_stat}
-                  atk={pokemon.stats[1].base_stat}
-                  def={pokemon.stats[2].base_stat}
+                  hp={pokemon.stats[0]?.base_stat || 0}
+                  atk={pokemon.stats[1]?.base_stat || 0}
+                  def={pokemon.stats[2]?.base_stat || 0}
                 />
                 <div className="flex flex-row gap-1 flex-wrap">
                   {pokemon.abilities.slice(0, 1).map((item) => (
@@ -124,11 +152,11 @@ function CardHero() {
         ))}
       </div>
 
-      <div className="flex flex-row justify-center items-center gap-5 mt-5">
+      {/* <div className="flex flex-row justify-center items-center gap-5 mt-5">
         <Button text="Prev" onClick={prevPage} disabled={offset === 0} />
         <span className="text-lg font-semibold">Page {offset / limit + 1}</span>
         <Button text="Next" onClick={nextPage} />
-      </div>
+      </div> */}
     </>
   );
 }
