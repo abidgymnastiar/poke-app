@@ -4,7 +4,7 @@ import CardHeroImg from "./CardHeroImage";
 import CardHeroStats from "./CardHeroStats";
 import CardHeroTitle from "./CardHeroTitle";
 import CardHeroAbilities from "./CardHeroAbilities";
-import Button from "../../Button";
+import ButtonPagination from "../../Button";
 import { useNavigate } from "react-router-dom";
 import usePokemonList from "../../../hooks/usePokemonList";
 import usePokemonDetails from "../../../hooks/usePokemonDetails";
@@ -30,10 +30,7 @@ function CardHero() {
   }, [pokemonData]);
 
   // Fungsi untuk mengubah halaman
-  const nextPage = useCallback(
-    () => setOffset((prev) => prev + limitShow),
-    []
-  );
+  const nextPage = useCallback(() => setOffset((prev) => prev + limitShow), []);
   const prevPage = useCallback(
     () => setOffset((prev) => Math.max(0, prev - limitShow)),
     []
@@ -73,17 +70,21 @@ function CardHero() {
           onChange={(e) => setSearchQuery(e.target.value)}
           className="border border-gray-400 rounded-md px-4 py-2 w-1/2"
         />
-          <div className="flex flex-row justify-center items-center gap-5 mt-5">
-            <Button text="Prev" onClick={prevPage} disabled={offset === 0} />
-            <span className="text-lg font-semibold">
+        <div className="flex flex-row justify-center items-center gap-5 mt-5">
+          <ButtonPagination text="Prev" onClick={prevPage} disabled={offset === 0} />
+          <span className="text-lg font-semibold">
             Page {currentPage} of {totalPages}
-            </span>
-            <Button
-              text="Next"
-              onClick={nextPage}
-              disabled={offset + limitShow >= pokemonDetails.length}
-            />
-          </div>
+          </span>
+          <ButtonPagination
+            text="Next"
+            onClick={nextPage}
+            disabled={
+              searchQuery
+                ? offset + limitShow >= filteredPokemon.length
+                : offset + limitShow >= pokemonDetails.length
+            }
+          />
+        </div>
         {/* <div className="flex flex-row flex-wrap justify-center gap-9 w-max-[40%]">
           {pokemonType.map((type) => (
             <Checkbox
