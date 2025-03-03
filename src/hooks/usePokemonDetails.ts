@@ -4,7 +4,6 @@ import { PokemonDetail, usePokemonDetailsProps } from "../Types/pokemonDetails";
 
 //dimasukkan ke types
 
-
 // interface PokemonDetail {
 //   id: number;
 //   name: string;
