@@ -82,7 +82,9 @@ function CardHero() {
             <Button
               text="Next"
               onClick={nextPage}
-              disabled={offset + limitShow >= pokemonDetails.length}
+              disabled={searchQuery
+                ? offset + limitShow >= filteredPokemon.length
+                : offset + limitShow >= pokemonDetails.length}
             />
           </div>
         {/* )} */}
