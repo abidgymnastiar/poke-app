@@ -51,7 +51,7 @@ function CardHero() {
 
   // Jika ada pencarian, tampilkan semua hasil yang cocok, jika tidak, gunakan pagination
   const displayedPokemon = searchQuery
-    ? filteredPokemon
+    ? filteredPokemon.slice(offset, offset + limitShow)
     : pokemonDetails.slice(offset, offset + limitShow);
   // Menentukan jumlah total halaman
   const totalPages = searchQuery
@@ -73,7 +73,7 @@ function CardHero() {
           onChange={(e) => setSearchQuery(e.target.value)}
           className="border border-gray-400 rounded-md px-4 py-2 w-1/2"
         />
-        {!searchQuery && (
+        {/* {!searchQuery && ( */}
           <div className="flex flex-row justify-center items-center gap-5 mt-5">
             <Button text="Prev" onClick={prevPage} disabled={offset === 0} />
             <span className="text-lg font-semibold">
@@ -85,7 +85,7 @@ function CardHero() {
               disabled={offset + limitShow >= pokemonDetails.length}
             />
           </div>
-        )}
+        {/* )} */}
         {/* <div className="flex flex-row flex-wrap justify-center gap-9 w-max-[40%]">
           {pokemonType.map((type) => (
             <Checkbox
