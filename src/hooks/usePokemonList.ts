@@ -1,14 +1,6 @@
 import { useEffect, useState } from "react";
 import { getPokemon } from "../utils/Api";
-
-interface Pokemon {
-  name: string;
-  url: string;
-}
-interface usePokemonProps {
-  offset: number;
-  limit: number;
-}
+import { Pokemon, usePokemonProps } from "../Types/pokemonList";
 
 const usePokemonList = ({ offset, limit }: usePokemonProps) => {
   const [pokemonData, setPokemonData] = useState<Pokemon[]>([]);
