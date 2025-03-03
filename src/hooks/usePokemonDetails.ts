@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { getPokemonById } from "../utils/Api";
 
@@ -36,10 +35,13 @@ interface usePokemonDetailsProps {
   pokemonData: { url: string }[];
 }
 
-const usePokemonDetails = ({pokemonData} :usePokemonDetailsProps) => {
+const usePokemonDetails = ({ pokemonData }: usePokemonDetailsProps) => {
   const [pokemonDetails, setPokemonDetails] = useState<PokemonDetail[]>([]);
 
   useEffect(() => {
+    if (!pokemonData || !Array.isArray(pokemonData) || pokemonData.length === 0)
+      return;
+
     const fetchPokemonDetails = async () => {
       const details = await Promise.all(
         pokemonData.map(async (pokemon) => {

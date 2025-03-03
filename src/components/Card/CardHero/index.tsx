@@ -17,7 +17,7 @@ function CardHero() {
   // const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
 
   const limit = 1500;
-  const limitTampil = 10;
+  const limitShow = 10;
 
   const navigate = useNavigate();
 
@@ -31,11 +31,11 @@ function CardHero() {
 
   // Fungsi untuk mengubah halaman
   const nextPage = useCallback(
-    () => setOffset((prev) => prev + limitTampil),
+    () => setOffset((prev) => prev + limitShow),
     []
   );
   const prevPage = useCallback(
-    () => setOffset((prev) => Math.max(0, prev - limitTampil)),
+    () => setOffset((prev) => Math.max(0, prev - limitShow)),
     []
   );
 
@@ -52,16 +52,16 @@ function CardHero() {
   // Jika ada pencarian, tampilkan semua hasil yang cocok, jika tidak, gunakan pagination
   const displayedPokemon = searchQuery
     ? filteredPokemon
-    : pokemonDetails.slice(offset, offset + limitTampil);
+    : pokemonDetails.slice(offset, offset + limitShow);
   // Menentukan jumlah total halaman
   const totalPages = searchQuery
-    ? Math.ceil(filteredPokemon.length / limitTampil)
-    : Math.ceil(pokemonDetails.length / limitTampil);
+    ? Math.ceil(filteredPokemon.length / limitShow)
+    : Math.ceil(pokemonDetails.length / limitShow);
 
   // Menentukan halaman saat ini
   const currentPage = searchQuery
-    ? Math.ceil(offset / limitTampil) + 1
-    : Math.min(Math.ceil(offset / limitTampil) + 1, totalPages);
+    ? Math.ceil(offset / limitShow) + 1
+    : Math.min(Math.ceil(offset / limitShow) + 1, totalPages);
 
   return (
     <>
@@ -82,7 +82,7 @@ function CardHero() {
             <Button
               text="Next"
               onClick={nextPage}
-              disabled={offset + limitTampil >= pokemonDetails.length}
+              disabled={offset + limitShow >= pokemonDetails.length}
             />
           </div>
         )}
